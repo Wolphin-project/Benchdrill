@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 
-	"git.rnd.alterway.fr/beedrill/simpletest/tasks"
+	"git.rnd.alterway.fr/beedrill/tasks"
 	machinery "github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"
 	"github.com/RichardKnop/machinery/v1/errors"
