@@ -11,9 +11,9 @@ import (
 
 // Define flags
 var (
-	configPath    = flag.String("c", "config.yml", "Path to a configuration file")
-	broker        = flag.String("b", "redis://127.0.0.1:6379/", "Broker URL")
-	resultBackend = flag.String("r", "redis://127.0.0.1:6379/", "Result backend")
+	configPath    = flag.String("c", "exampleconfig.yml", "Path to a configuration file")
+	broker        = flag.String("b", "redis://redis:6379/", "Broker URL")
+	resultBackend = flag.String("r", "redis://redis:6379/", "Result backend")
 	// resultBackend = flag.String("r", "redis://127.0.0.1:6379", "Result backend")
 	// resultBackend = flag.String("r", "memcache://127.0.0.1:11211", "Result backend")
 	// resultBackend = flag.String("r", "mongodb://127.0.0.1:27017", "Result backend")
