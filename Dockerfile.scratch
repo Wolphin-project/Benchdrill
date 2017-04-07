@@ -1,0 +1,3 @@
+FROM scratch
+ADD ./worker2 /worker2
+CMD ["/worker2"]
