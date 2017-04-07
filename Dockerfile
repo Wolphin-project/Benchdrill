@@ -1,5 +1,5 @@
 FROM ubuntu
 
-COPY ./worker /worker
+COPY ./bin/worker /worker
 
 ENTRYPOINT ["/worker"]

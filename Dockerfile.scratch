@@ -1,3 +1,5 @@
 FROM scratch
-ADD ./worker2 /worker2
-CMD ["/worker2"]
+
+ADD ./bin/worker_scratch /worker_scratch
+
+CMD ["/worker_scratch"]
