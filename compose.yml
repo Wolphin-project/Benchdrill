@@ -7,3 +7,5 @@ services:
 
     beedrill:
         image: beedrill:latest
+        depends_on:
+            - redis

@@ -1,5 +1,0 @@
-FROM scratch
-
-ADD ./bin/worker_scratch /worker_scratch
-
-CMD ["/worker_scratch"]

@@ -1,5 +1,5 @@
-FROM ubuntu
+FROM scratch
 
-COPY ./bin/worker /worker
+ADD ./bin/worker /worker
 
 ENTRYPOINT ["/worker"]
