@@ -55,7 +55,7 @@ func init() {
 
 func initTasks() {
 	task0 = signatures.TaskSignature{
-		Name: "simple_test",
+		Name: "get_busy",
 	}
 }
 

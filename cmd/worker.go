@@ -57,6 +57,8 @@ func init() {
 		"multiply":   exampletasks.Multiply,
 		"panic_task": exampletasks.PanicTask,
 		"simple_test":exampletasks.SimpleTest,
+		"sleep":      exampletasks.RestfulSleep,
+		"get_busy":   exampletasks.GetBusy,
 	}
 	server.RegisterTasks(tasks)
 
