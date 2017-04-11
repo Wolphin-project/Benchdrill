@@ -25,7 +25,7 @@ var (
 
 	cnf                                             config.Config
 	server                                          *machinery.Server
-	task0                                           signatures.TaskSignature
+	tasks_tab                                           [1000]signatures.TaskSignature
 )
 
 func init() {
@@ -54,16 +54,34 @@ func init() {
 }
 
 func initTasks() {
-	task0 = signatures.TaskSignature{
+	for i := range tasks_tab {
+		tasks_tab[i] = signatures.TaskSignature{
+			Name: "sleep",
+		}
+	}
+
+	/*task0 = signatures.TaskSignature{
 		Name: "get_busy",
 	}
+
+	task1 = signatures.TaskSignature{
+		Name: "sleep",
+	}
+
+	task2 = signatures.TaskSignature{
+		Name: "sleep",
+	}
+
+	task3 = signatures.TaskSignature{
+		Name: "get_busy",
+	}*/
 }
 
 func main() {
 	/*
 	 * First, let's try sending a single task
 	 */
-	initTasks()
+	/*initTasks()
 	fmt.Println("Single simple task:")
 
 	asyncResult, err := server.SendTask(&task0)
@@ -71,5 +89,19 @@ func main() {
 
 	result, err := asyncResult.Get()
 	errors.Fail(err, "Getting task state failed with error")
-	fmt.Printf("%v\n", result.Interface())
+	fmt.Printf("%v\n", result.Interface())*/
+
+	// Now let's try a parallel execution
+	initTasks()
+	fmt.Println("Group of tasks (parallel execution):")
+
+	group := machinery.NewGroup(&tasks_tab) // <-- how to use a loop there? inside the parenthesis (not possible IMHO)?
+	asyncResults, err := server.SendGroup(group)
+	errors.Fail(err, "Could not send group")
+
+	for _, asyncResult := range asyncResults {
+		result, err := asyncResult.Get()
+		errors.Fail(err, "Getting task state failed with error")
+		fmt.Printf("%v\n", result.Interface())
+	}
 }
