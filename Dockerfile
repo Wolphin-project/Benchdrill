@@ -1,5 +1,5 @@
 FROM scratch
 
-ADD ./bin/worker /worker
+ADD ./bin/beedrill-worker /beedrill-worker
 
-ENTRYPOINT ["/worker"]
+ENTRYPOINT ["/beedrill-worker"]

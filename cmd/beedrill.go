@@ -18,10 +18,11 @@ var (
 	// resultBackend = flag.String("r", "redis://127.0.0.1:6379", "Result backend")
 	// resultBackend = flag.String("r", "memcache://127.0.0.1:11211", "Result backend")
 	// resultBackend = flag.String("r", "mongodb://127.0.0.1:27017", "Result backend")
-	exchange     = flag.String("e", "machinery_exchange", "Durable, non-auto-deleted AMQP exchange name")
-	exchangeType = flag.String("t", "direct", "Exchange type - direct|fanout|topic|x-custom")
-	defaultQueue = flag.String("q", "machinery_tasks", "Ephemeral AMQP queue name")
-	bindingKey   = flag.String("k", "machinery_task", "AMQP binding key")
+	exchange      = flag.String("e", "machinery_exchange", "Durable, non-auto-deleted AMQP exchange name")
+	exchangeType  = flag.String("t", "direct", "Exchange type - direct|fanout|topic|x-custom")
+	defaultQueue  = flag.String("q", "machinery_tasks", "Ephemeral AMQP queue name")
+	bindingKey    = flag.String("k", "machinery_task", "AMQP binding key")
+	times         = flag.Int("times", 1, "Number of times tasks are sent")
 
 	cnf                                             config.Config
 	server                                          *machinery.Server
@@ -55,7 +56,7 @@ func init() {
 
 func initTasks() {
 	task0 = signatures.TaskSignature{
-		Name: "get_busy",
+		Name: "sleep",
 	}
 
 	/*task1 = signatures.TaskSignature{
@@ -78,7 +79,7 @@ func main() {
 	initTasks()
 	fmt.Println("Single simple task:")
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < *times; i++ {
 		asyncResult, err := server.SendTask(&task0)
 		errors.Fail(err, "Could not send task")
 

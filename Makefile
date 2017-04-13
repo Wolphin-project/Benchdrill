@@ -1,12 +1,12 @@
-BINARIES=bin/worker bin/send
+BINARIES=bin/beedrill bin/beedrill-worker
 
 all: $(BINARIES)
 
-bin/worker:
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/worker ./cmd/worker.go
+bin/beedrill:
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
 
-bin/send:
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/send ./cmd/send.go
+bin/beedrill-worker:
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill-worker ./cmd/beedrill-worker.go
 
 clean:
 	rm -rf ${BINARIES}
