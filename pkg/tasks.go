@@ -36,9 +36,9 @@ func SimpleTest() (string, error) {
 
 // Sleeping
 func RestfulSleep() (string, error) {
-	time.Sleep(3000 * time.Millisecond)
+	time.Sleep(1000 * time.Millisecond)
 
-	return "Slept 3 s.", nil
+	return "Slept 1 s.", nil
 }
 
 // Busy
