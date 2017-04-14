@@ -1,9 +1,11 @@
 package exampletasks
 
 import (
-	"time"
-	"runtime"
 	"errors"
+	"io/ioutil"
+	"net"
+	"runtime"
+	"time"
 )
 
 // Add ...
@@ -49,9 +51,9 @@ func GetBusy() (string, error) {
 		go func() {
 			for {
 				select {
-					case <-done:
-						return
-					default:
+				case <-done:
+					return
+				default:
 				}
 			}
 		}()
@@ -61,4 +63,39 @@ func GetBusy() (string, error) {
 	close(done)
 
 	return "Hard work done.", nil
+}
+
+// TCP Socket
+func OperateTCP() (string, error) {
+	addr := net.ParseIP("127.0.0.11")
+
+	if addr == nil {
+		return "Invalid IP address", errors.New("tasks: error when parsing string to IP address")
+	}
+
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", "127.0.0.11:6389")
+
+	if err != nil {
+		return "Invalid TCP address", err
+	}
+
+	conn, err := net.DialTCP("tcp4", nil, tcpAddr)
+
+	if err != nil {
+		return "Error when establishing TCP connection", err
+	}
+
+	_, err = conn.Write([]byte("You see that awesome dial?"))
+
+	if err != nil {
+		return "Error when writing into the connection", err
+	}
+
+	result, err := ioutil.ReadAll(conn)
+
+	if err != nil {
+		return "Error when reading from the TCP socket", err
+	}
+
+	return string(result), nil
 }
