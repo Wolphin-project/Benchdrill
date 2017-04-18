@@ -73,13 +73,13 @@ func OperateTCP() (string, error) {
 		return "Invalid IP address", errors.New("tasks: error when parsing string to IP address")
 	}
 
-	tcpAddr, err := net.ResolveTCPAddr("tcp4", "127.0.0.11:6389")
+	/*tcpAddr, err := net.ResolveTCPAddr("tcp4", "127.0.0.11:6389")
 
 	if err != nil {
 		return "Invalid TCP address", err
-	}
+	}*/
 
-	conn, err := net.DialTCP("tcp4", nil, tcpAddr)
+	conn, err := net.DialTCP("tcp4", nil, &net.TCPAddr{IP: net.IPv4(127, 0, 0, 1), Port: 6389})
 
 	if err != nil {
 		return "Error when establishing TCP connection", err
