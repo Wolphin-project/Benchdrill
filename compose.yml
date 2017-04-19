@@ -1,5 +1,7 @@
 version: "3"
 services:
+    one-mega-nginx:
+        image: one-mega-nginx:latest
     redis:
         image: redis:latest
         ports:
