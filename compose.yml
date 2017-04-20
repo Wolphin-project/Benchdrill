@@ -9,3 +9,10 @@ services:
         image: beedrill:latest
         depends_on:
             - redis
+
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
+
