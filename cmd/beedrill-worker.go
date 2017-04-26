@@ -53,13 +53,14 @@ func init() {
 
 	// Register tasks
 	tasks := map[string]interface{}{
-		"add":         exampletasks.Add,
-		"multiply":    exampletasks.Multiply,
-		"panic_task":  exampletasks.PanicTask,
-		"simple_test": exampletasks.SimpleTest,
-		"sleep":       exampletasks.RestfulSleep,
-		"get_busy":    exampletasks.GetBusy,
-		"TCP_socket":  exampletasks.OperateTCP,
+		"add":           exampletasks.Add,
+		"multiply":      exampletasks.Multiply,
+		"panic_task":    exampletasks.PanicTask,
+		"simple_test":   exampletasks.SimpleTest,
+		"sleep":         exampletasks.RestfulSleep,
+		"get_busy":      exampletasks.GetBusy,
+		"TCP_socket":    exampletasks.OperateTCP,
+		"sysbench_task": exampletasks.SysbenchTask,
 	}
 	server.RegisterTasks(tasks)
 

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net"
+	"os/exec"
 	//"fmt"
 	//"strconv"
 	"runtime"
@@ -165,4 +166,16 @@ func OperateTCP() (string, error) {
 		}*/
 
 	return string(result), nil
+}
+
+// Sysbench
+func SysbenchTask() (string, error) {
+	cmd := "sysbench"
+	args := []string{"cpu", "run"}
+
+	if err := exec.Command(cmd, args...).Run(); err != nil {
+		return "Error when executing sysbench", err
+	}
+
+	return "Sysbench launched successfully", nil
 }

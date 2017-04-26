@@ -56,7 +56,7 @@ func init() {
 
 func initTasks() {
 	task0 = signatures.TaskSignature{
-		Name: "TCP_socket",
+		Name: "sysbench_task",
 	}
 
 	/*task1 = signatures.TaskSignature{
