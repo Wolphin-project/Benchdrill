@@ -1,5 +1,7 @@
 version: "3"
 services:
+    one-mega-nginx:
+        image: one-mega-nginx:latest
     redis:
         image: redis:latest
         ports:
@@ -7,6 +9,8 @@ services:
 
     beedrill:
         image: beedrill:latest
+        ports:
+            - "6389:6389"
         depends_on:
             - redis
 
