@@ -1,4 +1,5 @@
 version: "3"
+
 services:
     one-mega-nginx:
         image: one-mega-nginx:latest
@@ -14,9 +15,7 @@ services:
         depends_on:
             - redis
 
-
 networks:
   default:
     driver_opts:
       com.docker.network.driver.mtu: 1400
-

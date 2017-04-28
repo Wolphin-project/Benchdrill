@@ -11,16 +11,10 @@ import (
 
 // Define flags
 var (
-	configPath    = flag.String("c", "exampleconfig.yml", "Path to a configuration file")
+	configPath    = flag.String("c", "config_beedrill-worker.yml", "Path to a configuration file")
 	broker        = flag.String("b", "redis://redis:6379/", "Broker URL")
 	resultBackend = flag.String("r", "redis://redis:6379/", "Result backend")
-	// resultBackend = flag.String("r", "redis://127.0.0.1:6379", "Result backend")
-	// resultBackend = flag.String("r", "memcache://127.0.0.1:11211", "Result backend")
-	// resultBackend = flag.String("r", "mongodb://127.0.0.1:27017", "Result backend")
-	exchange     = flag.String("e", "machinery_exchange", "Durable, non-auto-deleted AMQP exchange name")
-	exchangeType = flag.String("t", "direct", "Exchange type - direct|fanout|topic|x-custom")
-	defaultQueue = flag.String("q", "machinery_tasks", "Ephemeral AMQP queue name")
-	bindingKey   = flag.String("k", "machinery_task", "AMQP binding key")
+	defaultQueue  = flag.String("q", "machinery_tasks", "Ephemeral Redis queue name")
 
 	cnf    config.Config
 	server *machinery.Server
@@ -34,10 +28,7 @@ func init() {
 	cnf = config.Config{
 		Broker:        *broker,
 		ResultBackend: *resultBackend,
-		Exchange:      *exchange,
-		ExchangeType:  *exchangeType,
 		DefaultQueue:  *defaultQueue,
-		BindingKey:    *bindingKey,
 	}
 
 	// Parse the config
