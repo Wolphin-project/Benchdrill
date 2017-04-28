@@ -10,8 +10,6 @@ services:
 
     beedrill:
         image: beedrill:latest
-        ports:
-            - "6389:6389"
         depends_on:
             - redis
 
