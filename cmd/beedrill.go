@@ -17,6 +17,7 @@ var (
 	resultBackend = flag.String("r", "redis://127.0.0.1:6379/", "Result backend")
 	defaultQueue  = flag.String("q", "machinery_tasks", "Ephemeral Redis queue name")
 	times         = flag.Int("times", 1, "Number of times tasks are sent")
+	sysbench      = flag.String("sysbench", "--help", "Sysbench benchmark")
 
 	cnf    config.Config
 	server *machinery.Server
@@ -51,7 +52,7 @@ func initTasks() {
 		Args: []signatures.TaskArg{
 			{
 				Type:  "string",
-				Value: "--version",
+				Value: sysbench,
 			},
 		},
 	}

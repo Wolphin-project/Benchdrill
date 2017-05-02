@@ -100,9 +100,11 @@ func OperateTCP() (string, error) {
 func SysbenchTask(args ...string) (string, error) {
 	cmd := "sysbench"
 
-	if err := exec.Command(cmd, args...).Run(); err != nil {
+    res, err := exec.Command(cmd, args...).Output()
+
+	if err != nil {
 		return "Error when executing sysbench", err
 	}
 
-	return "Sysbench launched successfully", nil
+	return string(res), nil
 }
