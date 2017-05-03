@@ -22,8 +22,13 @@ RUN git clone https://github.com/akopytov/sysbench.git
 RUN cd sysbench && \
     ./autogen.sh && \
     ./configure --without-mysql && \
-    make && \
-    cp src/sysbench /usr/local/bin/
+    make
+
+# ==================================================================================
+
+FROM ubuntu
+
+COPY --from=0 /root/sysbench/src/sysbench /usr/local/bin/
 
 ADD ./bin/beedrill-worker /usr/local/bin/beedrill-worker
 
