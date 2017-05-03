@@ -6,6 +6,7 @@ import (
 	"net"
 	"os/exec"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -96,11 +97,11 @@ func OperateTCP() (string, error) {
 	return string(result), nil
 }
 
-// Sysbench
-func SysbenchTask(args ...string) (string, error) {
-	cmd := "sysbench"
+// Command passed to workers
+func TaskArgs(args ...string) (string, error) {
+	splitted_args := strings.Split(strings.Join(args, " "), " ")
 
-    res, err := exec.Command(cmd, args...).Output()
+	res, err := exec.Command(splitted_args[0], splitted_args[1:]...).Output()
 
 	if err != nil {
 		return "Error when executing sysbench", err

@@ -16,8 +16,9 @@ var (
 	broker        = flag.String("b", "redis://127.0.0.1:6379/", "Broker URL")
 	resultBackend = flag.String("r", "redis://127.0.0.1:6379/", "Result backend")
 	defaultQueue  = flag.String("q", "machinery_tasks", "Ephemeral Redis queue name")
+	task          = flag.String("task", "", "Command to be executed by workers")
+	arguments     = flag.String("arguments", "", "Arguments to be passed with the task’s flag command to workers")
 	times         = flag.Int("times", 1, "Number of times tasks are sent")
-	sysbench      = flag.String("sysbench", "--help", "Sysbench benchmark")
 
 	cnf    config.Config
 	server *machinery.Server
@@ -48,34 +49,22 @@ func init() {
 
 func initTasks() {
 	task0 = signatures.TaskSignature{
-		Name: "sysbench_task",
+		Name: "task_args",
 		Args: []signatures.TaskArg{
 			{
 				Type:  "string",
-				Value: sysbench,
+				Value: task,
+			},
+			{
+				Type:  "string",
+				Value: arguments,
 			},
 		},
 	}
-
-	/*task1 = signatures.TaskSignature{
-		Name: "sleep",
-	}
-
-	task2 = signatures.TaskSignature{
-		Name: "sleep",
-	}
-
-	task3 = signatures.TaskSignature{
-		Name: "get_busy",
-	}*/
 }
 
 func main() {
-	/*
-	 * First, let's try sending a single task
-	 */
 	initTasks()
-	fmt.Println("Single simple task:")
 
 	for i := 0; i < *times; i++ {
 		asyncResult, err := server.SendTask(&task0)
@@ -83,6 +72,7 @@ func main() {
 
 		result, err := asyncResult.Get()
 		errors.Fail(err, "Getting task state failed with error")
+
 		fmt.Printf("%v\n", result.Interface())
 	}
 }
