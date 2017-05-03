@@ -1,11 +1,30 @@
 FROM ubuntu
 
-ADD ./bin/beedrill-worker /beedrill-worker
+# build sysbench
 
-RUN ["/bin/bash", "-c", "apt-get update && apt-get install -y curl"]
+RUN apt-get -qq update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get -qq install -y \
+        ca-certificates \
+        autoconf \
+        libtool \
+        git \
+        pkg-config \
+        vim \
+    && apt-get clean -y \
+    && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN ["/bin/bash", "-c", "curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash"]
+# xxd was emancipated from vim in zesty
 
-RUN apt-get update && apt-get install -y sysbench
+WORKDIR /root
 
-ENTRYPOINT ["/beedrill-worker"]
+RUN git clone https://github.com/akopytov/sysbench.git
+
+RUN cd sysbench && \
+    ./autogen.sh && \
+    ./configure --without-mysql && \
+    make && \
+    cp src/sysbench /usr/local/bin/
+
+ADD ./bin/beedrill-worker /usr/local/bin/beedrill-worker
+
+ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
