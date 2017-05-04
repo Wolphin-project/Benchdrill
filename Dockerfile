@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu as builder
 
 # build sysbench
 
@@ -22,9 +22,14 @@ RUN git clone https://github.com/akopytov/sysbench.git
 RUN cd sysbench && \
     ./autogen.sh && \
     ./configure --without-mysql && \
-    make && \
-    cp src/sysbench /usr/local/bin/
+    make
 
-ADD ./bin/beedrill-worker /usr/local/bin/beedrill-worker
+# ==================================================================================
+
+FROM ubuntu
+
+COPY --from=builder /root/sysbench/src/sysbench /usr/local/bin/
+
+COPY ./bin/beedrill-worker /usr/local/bin/beedrill-worker
 
 ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
