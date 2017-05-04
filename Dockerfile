@@ -30,6 +30,6 @@ FROM ubuntu
 
 COPY --from=builder /root/sysbench/src/sysbench /usr/local/bin/
 
-ADD ./bin/beedrill-worker /usr/local/bin/beedrill-worker
+COPY ./bin/beedrill-worker /usr/local/bin/beedrill-worker
 
 ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
