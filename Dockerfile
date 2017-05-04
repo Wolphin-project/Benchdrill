@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu as builder
 
 # build sysbench
 
@@ -28,7 +28,7 @@ RUN cd sysbench && \
 
 FROM ubuntu
 
-COPY --from=0 /root/sysbench/src/sysbench /usr/local/bin/
+COPY --from=builder /root/sysbench/src/sysbench /usr/local/bin/
 
 ADD ./bin/beedrill-worker /usr/local/bin/beedrill-worker
 
