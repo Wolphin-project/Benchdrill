@@ -1,4 +1,4 @@
-FROM ubuntu as builder
+FROM ubuntu as sysbench
 
 # build sysbench
 
@@ -26,10 +26,21 @@ RUN cd sysbench && \
 
 # ==================================================================================
 
+FROM golang as beedrill
+
+ADD . /go/src/git.rnd.alterway.fr/beedrill
+
+WORKDIR /go/src/git.rnd.alterway.fr/beedrill
+
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill-worker ./cmd/beedrill-worker.go
+
+# ==================================================================================
+
 FROM ubuntu
 
-COPY --from=builder /root/sysbench/src/sysbench /usr/local/bin/
-
-COPY ./bin/beedrill-worker /usr/local/bin/beedrill-worker
+COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
+#COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
+COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill-worker /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
