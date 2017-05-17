@@ -15,3 +15,4 @@ build_image:
     - docker push $IMAGE_TAG
   only:
     - master
+    - adapt_to_new_machinery
