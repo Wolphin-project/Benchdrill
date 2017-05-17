@@ -1,4 +1,4 @@
-package exampletasks
+package beedrilltasks
 
 import (
 	"errors"
