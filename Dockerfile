@@ -32,6 +32,7 @@ ADD . /go/src/git.rnd.alterway.fr/beedrill
 
 WORKDIR /go/src/git.rnd.alterway.fr/beedrill
 
+RUN go get github.com/urfave/cli/...
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill-worker ./cmd/beedrill-worker.go
 
