@@ -33,6 +33,7 @@ COPY . /go/src/git.rnd.alterway.fr/beedrill
 WORKDIR /go/src/git.rnd.alterway.fr/beedrill
 
 RUN go get github.com/urfave/cli/...
+RUN go get github.com/RichardKnop/machinery/...
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
 
 # ==================================================================================

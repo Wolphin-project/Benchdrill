@@ -1,11 +1,6 @@
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-  GIT_SUBMODULE_STRATEGY: recursive
-
-before_script:
-  - git submodule sync --recursive
-  - git submodule update --init --recursive
 
 build_image:
   image: docker:git
