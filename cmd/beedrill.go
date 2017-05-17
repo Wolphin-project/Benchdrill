@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-    "git.rnd.alterway.fr/beedrill/pkg"
+	"git.rnd.alterway.fr/beedrill/pkg"
 
 	machinery "github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"

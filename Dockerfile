@@ -34,14 +34,12 @@ WORKDIR /go/src/git.rnd.alterway.fr/beedrill
 
 RUN go get github.com/urfave/cli/...
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill-worker ./cmd/beedrill.go
 
 # ==================================================================================
 
 FROM ubuntu
 
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
-#COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
-COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill-worker /usr/local/bin/
+COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
 
-ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
+ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]

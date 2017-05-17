@@ -12,6 +12,9 @@ services:
         image: beedrill:latest
         depends_on:
             - redis
+        deploy:
+          replicas: 1
+
 
 networks:
   default:
