@@ -7,7 +7,6 @@ RUN apt-get -qq update -y \
         ca-certificates \
         autoconf \
         libtool \
-        libsasl2-dev \
         git \
         pkg-config \
         vim \
@@ -28,6 +27,13 @@ RUN cd sysbench && \
 # ==================================================================================
 
 FROM golang as beedrill
+
+RUN apt-get -qq update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get -qq install -y \
+        ca-certificates \
+        libsasl2-dev \
+    && apt-get clean -y \
+    && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY . /go/src/git.rnd.alterway.fr/beedrill
 
