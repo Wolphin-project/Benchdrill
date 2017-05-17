@@ -10,6 +10,9 @@ services:
 
     beedrill:
         image: beedrill:latest
+        command:
+          - /usr/local/bin/beedrill
+          - worker
         depends_on:
             - redis
         deploy:

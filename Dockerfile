@@ -42,4 +42,4 @@ FROM ubuntu
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
 COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
 
-ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]
+#ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]
