@@ -12,10 +12,6 @@ services:
         image: beedrill:latest
         command:
           - "/usr/local/bin/beedrill"
-          - "-r"
-          - "redis://redis:6379/"
-          - "-b"
-          - "redis://redis:6379/"
           - "worker"
         depends_on:
             - redis

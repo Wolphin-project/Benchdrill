@@ -50,4 +50,9 @@ FROM ubuntu
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
 COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
 
+WORKDIR /root
+
+COPY config_beedrill.yml /root/
+COPY config_beedrill-worker.yml /root/
+
 #ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]
