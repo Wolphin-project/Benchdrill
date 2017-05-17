@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-    one-mega-nginx:
-        image: one-mega-nginx:latest
+#    one-mega-nginx:
+#      image: one-mega-nginx:latest
     redis:
         image: redis:latest
         ports:
@@ -11,8 +11,12 @@ services:
     beedrill:
         image: beedrill:latest
         command:
-          - /usr/local/bin/beedrill
-          - worker
+          - "/usr/local/bin/beedrill"
+          - "-r"
+          - "redis://redis:6379/"
+          - "-b"
+          - "redis://redis:6379/"
+          - "worker"
         depends_on:
             - redis
         deploy:
