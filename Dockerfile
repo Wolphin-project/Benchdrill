@@ -7,6 +7,7 @@ RUN apt-get -qq update -y \
         ca-certificates \
         autoconf \
         libtool \
+        libsasl2-dev \
         git \
         pkg-config \
         vim \
