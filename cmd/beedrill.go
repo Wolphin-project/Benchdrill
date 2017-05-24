@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"git.rnd.alterway.fr/beedrill/pkg"
 
@@ -147,7 +148,7 @@ func send() error {
 			return fmt.Errorf("Could not send task: %s", err.Error())
 		}
 
-		results, err := asyncResult.Get()
+		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
 		if err != nil {
 			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
 		}
