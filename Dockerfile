@@ -57,7 +57,7 @@ RUN cd filebench \
 FROM ubuntu
 
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
-COPY --from=filebench /root/filebench/src/filebench /usr/local/bin/
+COPY --from=filebench /root/filebench/filebench /usr/local/bin/
 
 COPY ./bin/beedrill-worker /usr/local/bin/beedrill-worker
 
