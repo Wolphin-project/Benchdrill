@@ -84,4 +84,4 @@ WORKDIR /root
 COPY config_beedrill.yml /root/
 COPY config_beedrill-worker.yml /root/
 
-ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]
+ENTRYPOINT ["/usr/local/bin/beedrill"]
