@@ -1,0 +1,4 @@
+#!/bin/sh
+
+docker network create --driver overlay --subnet 10.9.0.0/16 --opt encrypted --attachable lulz_default --opt com.docker.network.driver.mtu=1400
+
