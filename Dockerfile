@@ -54,11 +54,34 @@ RUN cd filebench \
 
 # ==================================================================================
 
+FROM golang as beedrill
+
+RUN apt-get -qq update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get -qq install -y \
+        ca-certificates \
+        libsasl2-dev \
+    && apt-get clean -y \
+    && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+COPY . /go/src/git.rnd.alterway.fr/beedrill
+
+WORKDIR /go/src/git.rnd.alterway.fr/beedrill
+
+RUN go get github.com/urfave/cli/...
+RUN go get github.com/RichardKnop/machinery/...
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
+
+# ==================================================================================
+
 FROM ubuntu
 
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
 COPY --from=filebench /root/filebench/filebench /usr/local/bin/
+COPY --from=beedrill /go/src/git.rnd.alterway.fr/beedrill/bin/beedrill /usr/local/bin/
 
-COPY ./bin/beedrill-worker /usr/local/bin/beedrill-worker
+WORKDIR /root
 
-ENTRYPOINT ["/usr/local/bin/beedrill-worker"]
+COPY config_beedrill.yml /root/
+COPY config_beedrill-worker.yml /root/
+
+ENTRYPOINT ["/usr/local/bin/beedrill", "worker"]
