@@ -140,20 +140,30 @@ func send() error {
 
 	initTasks()
 
-	log.INFO.Println("Command passed to worker…")
+	var s []*tasks.Signature
 
 	for i := 0; i < times; i++ {
-		asyncResult, err := server.SendTask(&task0)
-		if err != nil {
-			return fmt.Errorf("Could not send task: %s", err.Error())
-		}
+		s = append(s, &task0)
+	}
 
+	groupedTasks := tasks.NewGroup(s...)
+
+	log.INFO.Println("Command passed to worker…")
+
+	asyncResults, err := server.SendGroup(groupedTasks)
+	if err != nil {
+		return fmt.Errorf("Could not send task: %s", err.Error())
+	}
+
+	for _, asyncResult := range asyncResults {
 		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
 		if err != nil {
 			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
 		}
 
-		log.INFO.Printf("%v\n", results[0].Interface())
+		for _, result := range results {
+			log.INFO.Printf("%v\n", result.Interface())
+		}
 	}
 
 	return nil
