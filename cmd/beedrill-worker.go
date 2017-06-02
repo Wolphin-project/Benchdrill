@@ -1,9 +1,9 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-	"git.rnd.alterway.fr/beedrill/pkg"
+	"git.rnd.alterway.fr/Wolphin-project/beedrill/pkg"
 
 	machinery "github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"
@@ -24,10 +24,10 @@ var (
 func init() {
 	app = cli.NewApp()
 
-	app.Name    = "Beedrill"
-	app.Usage   = "sysbench tasks sent with machinery to workers"
-	app.Author  = "Alter Way"
-	app.Email   = "qqch@alterway.fr"
+	app.Name = "Beedrill"
+	app.Usage = "sysbench tasks sent with machinery to workers"
+	app.Author = "Alter Way"
+	app.Email = "qqch@alterway.fr"
 	app.Version = "0.1.0"
 
 	app.Flags = []cli.Flag{
@@ -92,7 +92,7 @@ func startServer() (*machinery.Server, error) {
 }
 
 func main() {
-    server, err := startServer()
+	server, err := startServer()
 	if err != nil {
 		fmt.Errorf("Could not start the worker server", err.Error())
 	}

@@ -1,6 +1,0 @@
-[submodule "vendor/github.com/RichardKnop/machinery"]
-	path = vendor/github.com/RichardKnop/machinery
-	url = https://github.com/RichardKnop/machinery.git
-[submodule "vendor/github.com/urfave"]
-	path = vendor/github.com/urfave
-	url = https://github.com/urfave/cli.git
