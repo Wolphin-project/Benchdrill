@@ -1,0 +1,12 @@
+---
+language: go
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+script:
+  - make ci
