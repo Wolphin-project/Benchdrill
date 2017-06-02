@@ -1,0 +1,7 @@
+[[constraint]]
+  revision = "fdcbe0ff6b8592b8ebc65f76fd63af3f6f90c3a7"
+  name = "github.com/RichardKnop/machinery"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/urfave/cli"
