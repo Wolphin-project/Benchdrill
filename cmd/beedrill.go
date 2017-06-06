@@ -7,7 +7,7 @@ import (
 
 	"git.rnd.alterway.fr/Wolphin-project/beedrill/pkg"
 
-	machinery "github.com/RichardKnop/machinery/v1"
+	"github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"
 	"github.com/RichardKnop/machinery/v1/log"
 	"github.com/RichardKnop/machinery/v1/tasks"
@@ -30,7 +30,7 @@ func init() {
 	app = cli.NewApp()
 
 	app.Name = "Beedrill"
-	app.Usage = "sysbench tasks sent with machinery to workers"
+	app.Usage = "Basic benchmark tool"
 	app.Author = "Alter Way"
 	app.Email = "qqch@alterway.fr"
 	app.Version = "0.1.0"
@@ -88,7 +88,7 @@ func startServer() (*machinery.Server, error) {
 		ResultBackend: resultBackend,
 	}
 
-	// If present, the config file takes priority over cli flags
+	// If present, the config file takes priority over CLI flags
 	data, err := config.ReadFromFile(configPath)
 	if err != nil {
 		log.WARNING.Printf("Could not load config from file: %s", err.Error())
@@ -109,9 +109,7 @@ func startServer() (*machinery.Server, error) {
 		"task_args": beedrilltasks.TaskArgs,
 	}
 
-	server.RegisterTasks(tasks)
-
-	return server, nil
+	return server, server.RegisterTasks(tasks)
 }
 
 func send() error {
@@ -197,7 +195,7 @@ func main() {
 			},
 		},
 		{
-			Name:  "Beedrill",
+			Name:  "send",
 			Usage: "Send Beedrill tasks",
 			Action: func(c *cli.Context) error {
 				return send()

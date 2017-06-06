@@ -1,22 +1,21 @@
 version: "3"
 
 services:
-#    one-mega-nginx:
-#      image: one-mega-nginx:latest
     redis:
         image: redis:latest
         ports:
             - "6379:6379"
+        volumes:
+            - ./redis.conf:/usr/local/etc/redis/redis.conf
 
     beedrill:
-        image: beedrill:latest
+        image: hub.rnd.alterway.fr/wolphin-project/beedrill:master
         command:
-          - "/usr/local/bin/beedrill"
-          - "worker"
+            - "worker"
         depends_on:
             - redis
         deploy:
-          replicas: 1
+          replicas: 3
 
 
 networks:
@@ -25,4 +24,3 @@ networks:
       com.docker.network.driver.mtu: 1400
     external:
       name: lulz_default
-
