@@ -80,5 +80,6 @@ COPY --from=beedrill /go/src/git.rnd.alterway.fr/Wolphin-project/beedrill/bin/be
 WORKDIR /root
 
 COPY config_beedrill.yml /root/
+COPY readfiles.f /root/
 
 ENTRYPOINT ["/usr/local/bin/beedrill"]
