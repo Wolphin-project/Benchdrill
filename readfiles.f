@@ -8,4 +8,4 @@ define process name = "readerP", instances = 2 {
 	}
 }
 
-run 60
+run 5
