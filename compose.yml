@@ -5,11 +5,9 @@ services:
         image: redis:latest
         ports:
             - "6379:6379"
-        volumes:
-            - ./redis.conf:/usr/local/etc/redis/redis.conf
 
     beedrill:
-        image: hub.rnd.alterway.fr/wolphin-project/beedrill:master
+        image: beedrill
         command:
             - "worker"
         depends_on:

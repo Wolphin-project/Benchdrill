@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"time"
 
@@ -107,12 +108,13 @@ func startServer() (*machinery.Server, error) {
 	// Register tasks
 	tasks := map[string]interface{}{
 		"task_args": beedrilltasks.TaskArgs,
+		"task_file": beedrilltasks.TaskFile,
 	}
 
 	return server, server.RegisterTasks(tasks)
 }
 
-func send() error {
+func send(cmd string) error {
 	server, err := startServer()
 	if err != nil {
 		return err
@@ -126,11 +128,7 @@ func send() error {
 			Args: []tasks.Arg{
 				{
 					Type:  "string",
-					Value: task,
-				},
-				{
-					Type:  "string",
-					Value: arguments,
+					Value: cmd,
 				},
 			},
 		}
@@ -146,12 +144,67 @@ func send() error {
 
 	groupedTasks := tasks.NewGroup(s...)
 
+	asyncResults, err := server.SendGroup(groupedTasks)
+	if err != nil {
+		return fmt.Errorf("Could not send task: %s", err.Error())
+	}
+
 	log.INFO.Println("Command passed to worker…")
+
+	for _, asyncResult := range asyncResults {
+		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
+		if err != nil {
+			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
+		}
+
+		for _, result := range results {
+			log.INFO.Printf("%v\n", result.Interface())
+		}
+	}
+
+	return nil
+}
+
+func send_cmd_file(cmd, file string) error {
+	server, err := startServer()
+	if err != nil {
+		return err
+	}
+
+	var task0 tasks.Signature
+
+	var initTasks = func() {
+		task0 = tasks.Signature{
+			Name: "task_file",
+			Args: []tasks.Arg{
+				{
+					Type:  "string",
+					Value: cmd,
+				},
+				{
+					Type:  "string",
+					Value: file,
+				},
+			},
+		}
+	}
+
+	initTasks()
+
+	var s []*tasks.Signature
+
+	for i := 0; i < times; i++ {
+		s = append(s, &task0)
+	}
+
+	groupedTasks := tasks.NewGroup(s...)
 
 	asyncResults, err := server.SendGroup(groupedTasks)
 	if err != nil {
 		return fmt.Errorf("Could not send task: %s", err.Error())
 	}
+
+	log.INFO.Println("Command passed to worker…")
 
 	for _, asyncResult := range asyncResults {
 		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
@@ -195,10 +248,23 @@ func main() {
 			},
 		},
 		{
-			Name:  "send",
-			Usage: "Send Beedrill tasks",
+			Name:  "send_cmd_args",
+			Usage: "Send command with arguments",
 			Action: func(c *cli.Context) error {
-				return send()
+				return send(c.Args().First())
+			},
+		},
+		{
+			Name:  "send_cmd_file",
+			Usage: "Send command with file",
+			Action: func(c *cli.Context) error {
+				file, err := ioutil.ReadFile("/dev/stdin")
+
+				if err != nil {
+					return fmt.Errorf("%s", err.Error())
+				}
+
+				return send_cmd_file(c.Args().First(), string(file))
 			},
 		},
 	}
