@@ -191,19 +191,31 @@ func send_cmd_file(cmd, file string) error {
 
 	initTasks()
 
-	asyncResult, err := server.SendTask(&task0)
+	var s []*tasks.Signature
+
+	for i := 0; i < times; i++ {
+		s = append(s, &task0)
+	}
+
+	groupedTasks := tasks.NewGroup(s...)
+
+	asyncResults, err := server.SendGroup(groupedTasks)
 	if err != nil {
 		return fmt.Errorf("Could not send task: %s", err.Error())
 	}
 
 	log.INFO.Println("Command passed to worker…")
 
-	results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
-	if err != nil {
-		return fmt.Errorf("Getting task result failed with error: %s", err.Error())
-	}
+	for _, asyncResult := range asyncResults {
+		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
+		if err != nil {
+			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
+		}
 
-	log.INFO.Printf("%v", results[0].Interface())
+		for _, result := range results {
+			log.INFO.Printf("%v\n", result.Interface())
+		}
+	}
 
 	return nil
 }
