@@ -22,8 +22,6 @@ var (
 	broker        string
 	resultBackend string
 	defaultQueue  string
-	task          string
-	arguments     string
 	times         int
 )
 
@@ -60,18 +58,6 @@ func init() {
 			Value:       "machinery_tasks",
 			Destination: &defaultQueue,
 			Usage:       "Ephemeral Redis queue name",
-		},
-		cli.StringFlag{
-			Name:        "task",
-			Value:       "",
-			Destination: &task,
-			Usage:       "Command to be executed by workers",
-		},
-		cli.StringFlag{
-			Name:        "arguments",
-			Value:       "",
-			Destination: &arguments,
-			Usage:       "Arguments to be passed with the task’s flag command to workers",
 		},
 		cli.IntFlag{
 			Name:        "times",
@@ -222,6 +208,7 @@ func send_cmd_file(cmd, file string) error {
 
 func worker() error {
 	server, err := startServer()
+
 	if err != nil {
 		return err
 	}
