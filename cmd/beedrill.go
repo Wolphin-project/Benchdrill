@@ -55,7 +55,7 @@ func init() {
 		},
 		cli.StringFlag{
 			Name:        "q",
-			Value:       "machinery_tasks",
+			Value:       "beedrill_tasks",
 			Destination: &defaultQueue,
 			Usage:       "Ephemeral Redis queue name",
 		},
@@ -100,7 +100,7 @@ func startServer() (*machinery.Server, error) {
 	return server, server.RegisterTasks(tasks)
 }
 
-func send(cmd string) error {
+func sendCmdArgs(cmd string) error {
 	server, err := startServer()
 	if err != nil {
 		return err
@@ -151,7 +151,7 @@ func send(cmd string) error {
 	return nil
 }
 
-func send_cmd_file(cmd, file string) error {
+func sendCmdFile(cmd, file string) error {
 	server, err := startServer()
 	if err != nil {
 		return err
@@ -224,6 +224,26 @@ func worker() error {
 	return nil
 }
 
+func getStatus(queue string) error {
+	server, err := startServer()
+
+	if err != nil {
+		return err
+	}
+
+	waitingTasks, err := server.GetBroker().GetPendingTasks(queue)
+
+	if err != nil {
+		return err
+	}
+
+	for _, waitingTask := range waitingTasks {
+		log.INFO.Printf("%v", waitingTask.Name)
+	}
+
+	return nil
+}
+
 func main() {
 	// Set the CLI app commands
 	app.Commands = []cli.Command{
@@ -238,7 +258,7 @@ func main() {
 			Name:  "send_cmd_args",
 			Usage: "Send command with arguments",
 			Action: func(c *cli.Context) error {
-				return send(c.Args().First())
+				return sendCmdArgs(c.Args().First())
 			},
 		},
 		{
@@ -251,7 +271,14 @@ func main() {
 					return fmt.Errorf("%s", err.Error())
 				}
 
-				return send_cmd_file(c.Args().First(), string(file))
+				return sendCmdFile(c.Args().First(), string(file))
+			},
+		},
+		{
+			Name:  "get_status",
+			Usage: "Get tasks which are waiting in the queue",
+			Action: func(c *cli.Context) error {
+				return getStatus(c.Args().First())
 			},
 		},
 	}
