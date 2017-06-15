@@ -114,7 +114,7 @@ func startServer() (*machinery.Server, error) {
 	return server, server.RegisterTasks(tasks)
 }
 
-func send(cmd, arguments string) error {
+func send(cmd string) error {
 	server, err := startServer()
 	if err != nil {
 		return err
@@ -129,10 +129,6 @@ func send(cmd, arguments string) error {
 				{
 					Type:  "string",
 					Value: cmd,
-				},
-				{
-					Type:  "string",
-					Value: arguments,
 				},
 			},
 		}
@@ -169,7 +165,7 @@ func send(cmd, arguments string) error {
 	return nil
 }
 
-func send_cmd_file(cmd string, contents []byte) error {
+func send_cmd_file(cmd, file string) error {
 	server, err := startServer()
 	if err != nil {
 		return err
@@ -186,8 +182,8 @@ func send_cmd_file(cmd string, contents []byte) error {
 					Value: cmd,
 				},
 				{
-					Type:  "[]byte",
-					Value: contents,
+					Type:  "string",
+					Value: file,
 				},
 			},
 		}
@@ -200,12 +196,14 @@ func send_cmd_file(cmd string, contents []byte) error {
 		return fmt.Errorf("Could not send task: %s", err.Error())
 	}
 
+	log.INFO.Println("Command passed to worker…")
+
 	results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
 	if err != nil {
 		return fmt.Errorf("Getting task result failed with error: %s", err.Error())
 	}
 
-	log.INFO.Printf("%v\n", results[0].Interface())
+	log.INFO.Printf("%v", results[0].Interface())
 
 	return nil
 }
@@ -241,18 +239,20 @@ func main() {
 			Name:  "send_cmd_args",
 			Usage: "Send command with arguments",
 			Action: func(c *cli.Context) error {
-				return send(c.Args().First(), c.Args().Get(1))
+				return send(c.Args().First())
 			},
 		},
 		{
-			Name:   "send_cmd_file",
-			Usage:  "Send command with file",
+			Name:  "send_cmd_file",
+			Usage: "Send command with file",
 			Action: func(c *cli.Context) error {
-				contents, err := ioutil.ReadFile(c.Args().Get(1))
+				file, err := ioutil.ReadFile("/dev/stdin")
+
 				if err != nil {
 					return fmt.Errorf("%s", err.Error())
 				}
-				return send_cmd_file(c.Args().First(), contents)
+
+				return send_cmd_file(c.Args().First(), string(file))
 			},
 		},
 	}

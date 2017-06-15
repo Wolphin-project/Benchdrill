@@ -7,8 +7,8 @@ import (
 )
 
 // Command passed to workers
-func TaskArgs(args ...string) (string, error) {
-	splitted_args := strings.Split(strings.Join(args, " "), " ")
+func TaskArgs(cmd string) (string, error) {
+	splitted_args := strings.Split(cmd, " ")
 
 	res, err := exec.Command(splitted_args[0], splitted_args[1:]...).Output()
 
@@ -19,11 +19,12 @@ func TaskArgs(args ...string) (string, error) {
 	return string(res), nil
 }
 
-func TaskFile(cmd string, contents []byte) (string, error) {
-	err := ioutil.WriteFile("/root/readfiles.f", contents, 0644)
+func TaskFile(cmd, file string) (string, error) {
+	err := ioutil.WriteFile("/root/workload.f", []byte(file), 0644)
+
 	if err != nil {
-		return "Error when writing readfiles.f", err
+		return "Error when writing workload.f", err
 	}
 
-	return TaskArgs(cmd, "-f readfiles.f")
+	return TaskArgs(cmd + "workload.f")
 }
