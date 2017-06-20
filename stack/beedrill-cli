@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# ./services/beedrill-cli --task sysbench --arguments "--version" Beedrill
+# ./services/beedrill-cli --times 10 --task sysbench --arguments "--time=10 cpu run" Beedrill
+
+docker run --rm --network=beedrill_default -i hub.rnd.alterway.fr/wolphin-project/beedrill:master "$@"

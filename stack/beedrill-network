@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker network create --driver overlay --subnet 10.8.0.0/16 --attachable beedrill_default --opt com.docker.network.driver.mtu=1400
+

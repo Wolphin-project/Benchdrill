@@ -2,23 +2,23 @@ version: "3"
 
 services:
     redis:
-        image: redis:latest
+        image: redis:3.2.9
         ports:
             - "6379:6379"
 
     worker:
-        image: beedrill
+        image: hub.rnd.alterway.fr/wolphin-project/beedrill:master
         command:
-            - "worker"
+          - "worker"
         depends_on:
             - redis
         deploy:
-          replicas: 3
-
+          replicas: 5
 
 networks:
   default:
     driver_opts:
       com.docker.network.driver.mtu: 1400
     external:
-      name: lulz_default
+      name: beedrill_default
+
