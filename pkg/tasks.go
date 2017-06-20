@@ -20,11 +20,9 @@ func TaskArgs(cmd string) (string, error) {
 }
 
 func TaskFile(cmd, file string) (string, error) {
-	err := ioutil.WriteFile("/root/workload.f", []byte(file), 0644)
-
-	if err != nil {
+	if err := ioutil.WriteFile("/root/workload.f", []byte(file), 0644); err != nil {
 		return "Error when writing workload.f", err
 	}
 
-	return TaskArgs(cmd + "workload.f")
+	return TaskArgs(cmd + "/root/workload.f")
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/RichardKnop/machinery/v1/config"
 	"github.com/RichardKnop/machinery/v1/log"
 	"github.com/RichardKnop/machinery/v1/tasks"
+
 	"github.com/urfave/cli"
 )
 
@@ -77,16 +78,16 @@ func startServer() (*machinery.Server, error) {
 
 	// If present, the config file takes priority over CLI flags
 	data, err := config.ReadFromFile(configPath)
+
 	if err != nil {
 		log.WARNING.Printf("Could not load config from file: %s", err.Error())
-	} else {
-		if err = config.ParseYAMLConfig(&data, &cnf); err != nil {
-			return nil, fmt.Errorf("Could not parse config file: %s", err.Error())
-		}
+	} else if err = config.ParseYAMLConfig(&data, &cnf); err != nil {
+		return nil, fmt.Errorf("Could not parse config file: %s", err.Error())
 	}
 
 	// Create server instance
 	server, err := machinery.NewServer(&cnf)
+
 	if err != nil {
 		return nil, fmt.Errorf("Could not initialize server: %s", err.Error())
 	}
@@ -102,6 +103,7 @@ func startServer() (*machinery.Server, error) {
 
 func sendCmdArgs(cmd string) error {
 	server, err := startServer()
+
 	if err != nil {
 		return err
 	}
@@ -129,8 +131,8 @@ func sendCmdArgs(cmd string) error {
 	}
 
 	groupedTasks := tasks.NewGroup(s...)
-
 	asyncResults, err := server.SendGroup(groupedTasks)
+
 	if err != nil {
 		return fmt.Errorf("Could not send task: %s", err.Error())
 	}
@@ -139,12 +141,13 @@ func sendCmdArgs(cmd string) error {
 
 	for _, asyncResult := range asyncResults {
 		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
+
 		if err != nil {
 			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
 		}
 
 		for _, result := range results {
-			log.INFO.Printf("%v\n", result.Interface())
+			log.INFO.Printf("%v", result.Interface())
 		}
 	}
 
@@ -153,6 +156,7 @@ func sendCmdArgs(cmd string) error {
 
 func sendCmdFile(cmd, file string) error {
 	server, err := startServer()
+
 	if err != nil {
 		return err
 	}
@@ -184,8 +188,8 @@ func sendCmdFile(cmd, file string) error {
 	}
 
 	groupedTasks := tasks.NewGroup(s...)
-
 	asyncResults, err := server.SendGroup(groupedTasks)
+
 	if err != nil {
 		return fmt.Errorf("Could not send task: %s", err.Error())
 	}
@@ -194,12 +198,13 @@ func sendCmdFile(cmd, file string) error {
 
 	for _, asyncResult := range asyncResults {
 		results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
+
 		if err != nil {
 			return fmt.Errorf("Getting task result failed with error: %s", err.Error())
 		}
 
 		for _, result := range results {
-			log.INFO.Printf("%v\n", result.Interface())
+			log.INFO.Printf("%v", result.Interface())
 		}
 	}
 
@@ -215,7 +220,7 @@ func worker() error {
 
 	// The second argument is a consumer tag
 	// Ideally, each worker should have a unique tag (worker1, worker2 etc)
-	worker := server.NewWorker("machinery_worker")
+	worker := server.NewWorker("beedrill_worker")
 
 	if err := worker.Launch(); err != nil {
 		return err
@@ -231,6 +236,8 @@ func getStatus(queue string) error {
 		return err
 	}
 
+	fmt.Printf("%v\n", queue)
+
 	waitingTasks, err := server.GetBroker().GetPendingTasks(queue)
 
 	if err != nil {
@@ -238,7 +245,7 @@ func getStatus(queue string) error {
 	}
 
 	for _, waitingTask := range waitingTasks {
-		log.INFO.Printf("%v", waitingTask.Name)
+		log.INFO.Printf("%v | %v | %v", waitingTask.UUID, waitingTask.Name, waitingTask.GroupUUID)
 	}
 
 	return nil
@@ -268,7 +275,7 @@ func main() {
 				file, err := ioutil.ReadFile("/dev/stdin")
 
 				if err != nil {
-					return fmt.Errorf("%s", err.Error())
+					return err
 				}
 
 				return sendCmdFile(c.Args().First(), string(file))
