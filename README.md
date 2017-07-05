@@ -31,7 +31,8 @@ This command will send the command quoted 3 times as 3 separate and identical ta
 
 # Architecture
 
-![][architecture_schema.png]
+![Architecture schema of Beedrill](architecture_schema.png)
+
 
 # License
 Mozilla Public License 2.0
