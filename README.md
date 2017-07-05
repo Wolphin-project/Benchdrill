@@ -1,9 +1,9 @@
 ## Beedrill
 
-Beedrill is a benchmarking tool base on [Machinery](https://github.com/RichardKnop/machinery). It allows to load charges thanks to Machinery’s workers, which are distributed with Docker Compose in a Docker Swarm. Workers are then ready to execute tasks to run tools as [Filebench](https://github.com/filebench/filebench).
+Beedrill is a benchmarking tool based on [Machinery](https://github.com/RichardKnop/machinery). It allows to load charges thanks to Machinery’s workers, which are distributed with Docker Compose in a Docker Swarm. Workers are then ready to execute tasks to run tools as [Filebench](https://github.com/filebench/filebench).
 
 # Installation
-First you need Docker v17.05+. Then, after cloning this repository with Git, run the following commands in a terminal in the root directory of Beedrill:
+First you need Go 1.8 and Docker v17.05. Then, after cloning this repository with Git, run the following commands in a terminal in the root directory of Beedrill:
 
 ``` shell
 $ make
@@ -28,6 +28,10 @@ $ ./stack/beedrill-cli --times=3 send_cmd_file "filebench -f" < readfiles.f
 ```
 
 This command will send the command quoted 3 times as 3 separate and identical tasks executed simultaneously (thanks to the ``--times`` option); it will run the test written in `readfiles.f` (provided in the repository as an example).
+
+# Architecture
+
+![][architecture_schema.png]
 
 # License
 Mozilla Public License 2.0
