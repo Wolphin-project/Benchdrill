@@ -6,8 +6,7 @@ Beedrill is a benchmarking tool based on [Machinery](https://github.com/RichardK
 First you need Go 1.8 and Docker v17.05. Then, after cloning this repository with Git, run the following commands in a terminal in the root directory of Beedrill:
 
 ``` shell
-$ make
-# docker build -t hub.rnd.alterway.fr/wolphin-project/beedrill:master .
+$ docker build -t hub.rnd.alterway.fr/wolphin-project/beedrill:master .
 $ ./stack/beedrill-network
 $ ./stack/beedrill-deploy
 ```
