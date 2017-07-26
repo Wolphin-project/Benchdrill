@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker run --rm --network=benchdrill_default -i hub.rnd.alterway.fr/wolphin-project/benchdrill:master "$@"

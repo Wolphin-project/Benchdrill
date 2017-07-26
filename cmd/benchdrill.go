@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"git.rnd.alterway.fr/Wolphin-project/beedrill/pkg"
+	"git.rnd.alterway.fr/Wolphin-project/benchdrill/pkg"
 
 	"github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"
@@ -29,7 +29,7 @@ var (
 func init() {
 	app = cli.NewApp()
 
-	app.Name = "Beedrill"
+	app.Name = "Benchdrill"
 	app.Usage = "Basic benchmark tool"
 	app.Author = "Alter Way"
 	app.Email = "qqch@alterway.fr"
@@ -38,7 +38,7 @@ func init() {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:        "c",
-			Value:       "config_beedrill.yml",
+			Value:       "config_benchdrill.yml",
 			Destination: &configPath,
 			Usage:       "Path to a configuration file",
 		},
@@ -56,7 +56,7 @@ func init() {
 		},
 		cli.StringFlag{
 			Name:        "q",
-			Value:       "beedrill_tasks",
+			Value:       "benchdrill_tasks",
 			Destination: &defaultQueue,
 			Usage:       "Ephemeral Redis queue name",
 		},
@@ -94,8 +94,8 @@ func startServer() (*machinery.Server, error) {
 
 	// Register tasks
 	tasks := map[string]interface{}{
-		"task_args": beedrilltasks.TaskArgs,
-		"task_file": beedrilltasks.TaskFile,
+		"task_args": benchdrilltasks.TaskArgs,
+		"task_file": benchdrilltasks.TaskFile,
 	}
 
 	return server, server.RegisterTasks(tasks)
@@ -220,7 +220,7 @@ func worker() error {
 
 	// The second argument is a consumer tag
 	// Ideally, each worker should have a unique tag (worker1, worker2 etc)
-	worker := server.NewWorker("beedrill_worker")
+	worker := server.NewWorker("benchdrill_worker")
 
 	if err := worker.Launch(); err != nil {
 		return err
@@ -256,7 +256,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:  "worker",
-			Usage: "Launch Beedrill worker",
+			Usage: "Launch Benchdrill worker",
 			Action: func(c *cli.Context) error {
 				return worker()
 			},

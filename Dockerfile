@@ -54,7 +54,7 @@ RUN cd filebench \
 
 # ==================================================================================
 
-FROM golang as beedrill
+FROM golang as benchdrill
 
 RUN apt-get -qq update -y \
     && DEBIAN_FRONTEND=noninteractive apt-get -qq install -y \
@@ -63,11 +63,11 @@ RUN apt-get -qq update -y \
     && apt-get clean -y \
     && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY . /go/src/git.rnd.alterway.fr/Wolphin-project/beedrill
+COPY . /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill
 
-WORKDIR /go/src/git.rnd.alterway.fr/Wolphin-project/beedrill
+WORKDIR /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/beedrill ./cmd/beedrill.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/benchdrill ./cmd/benchdrill.go
 
 # ==================================================================================
 
@@ -75,10 +75,10 @@ FROM ubuntu
 
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
 COPY --from=filebench /root/filebench/filebench /usr/local/bin/
-COPY --from=beedrill /go/src/git.rnd.alterway.fr/Wolphin-project/beedrill/bin/beedrill /usr/local/bin/
+COPY --from=benchdrill /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill/bin/benchdrill /usr/local/bin/
 
 WORKDIR /root
 
-COPY config_beedrill.yml /root/
+COPY config_benchdrill.yml /root/
 
-ENTRYPOINT ["/usr/local/bin/beedrill"]
+ENTRYPOINT ["/usr/local/bin/benchdrill"]

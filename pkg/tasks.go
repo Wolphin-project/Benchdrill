@@ -1,4 +1,4 @@
-package beedrilltasks
+package benchdrilltasks
 
 import (
 	"io/ioutil"

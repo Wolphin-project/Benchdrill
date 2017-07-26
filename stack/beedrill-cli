@@ -1,3 +1,0 @@
-#!/bin/sh
-
-docker run --rm --network=beedrill_default -i hub.rnd.alterway.fr/wolphin-project/beedrill:master "$@"

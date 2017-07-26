@@ -7,7 +7,7 @@ services:
             - "6379:6379"
 
     worker:
-        image: hub.rnd.alterway.fr/wolphin-project/beedrill:master
+        image: hub.rnd.alterway.fr/wolphin-project/benchdrill:master
         command:
           - "worker"
         depends_on:
@@ -20,5 +20,5 @@ networks:
     driver_opts:
       com.docker.network.driver.mtu: 1400
     external:
-      name: beedrill_default
+      name: benchdrill_default
 
