@@ -30,7 +30,7 @@ This command will send the command quoted 3 times as 3 separate and identical ta
 
 # Architecture
 
-![Architecture schema of Beedrill](architecture_schema.svg)
+![Architecture schema of Beedrill](architecture_schema.png)
 
 
 # License
