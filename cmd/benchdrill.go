@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"git.rnd.alterway.fr/Wolphin-project/benchdrill/pkg"
+	"github.com/Wolphin-project/benchdrill/pkg"
 
 	"github.com/RichardKnop/machinery/v1"
 	"github.com/RichardKnop/machinery/v1/config"

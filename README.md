@@ -32,7 +32,7 @@ This command will send the command quoted 3 times as 3 separate and identical ta
 
 ![Architecture schema of Benchdrill](architecture_schema.png)
 
-The sender sends his jobs to the message broker Redis, which distribute it among the workers in parallel. After finishing their jobs, workers send the results to Redis which transmits it back to the sender. Redis and each worker are in separate Docker container on the same cluster.
+Both Redis and Worker services are in a Docker Swarm. A Swarm is a cluster in which each node is a Docker engine. A node can be a manager or a worker. In Swarm mode concepts are not about containers but about services. A service is the a task a manager or a worker has to execute. It can be several identical containers distributed across nodes. In our case, the Redis service is composed of a unique container, but the Worker service has several identical containers and can be scaled up or down with a `docker stack` command. More information about Docker Swarm [here](https://docs.docker.com/engine/swarm/).
 
 ## License
 Mozilla Public License 2.0

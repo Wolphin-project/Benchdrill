@@ -63,9 +63,9 @@ RUN apt-get -qq update -y \
     && apt-get clean -y \
     && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY . /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill
+COPY . /go/src/github.com/Wolphin-project/benchdrill
 
-WORKDIR /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill
+WORKDIR /go/src/github.com/Wolphin-project/benchdrill
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/benchdrill ./cmd/benchdrill.go
 
@@ -75,7 +75,7 @@ FROM ubuntu
 
 COPY --from=sysbench /root/sysbench/src/sysbench /usr/local/bin/
 COPY --from=filebench /root/filebench/filebench /usr/local/bin/
-COPY --from=benchdrill /go/src/git.rnd.alterway.fr/Wolphin-project/benchdrill/bin/benchdrill /usr/local/bin/
+COPY --from=benchdrill /go/src/github.com/Wolphin-project/benchdrill/bin/benchdrill /usr/local/bin/
 
 WORKDIR /root
 
