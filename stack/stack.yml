@@ -7,7 +7,7 @@ services:
             - "6379:6379"
 
     worker:
-        image: hub.rnd.alterway.fr/wolphin-project/benchdrill:master
+        image: wolphinproject/benchdrill:latest
         command:
           - "worker"
         depends_on:
