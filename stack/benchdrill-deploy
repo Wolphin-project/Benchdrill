@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker stack deploy --with-registry-auth --prune --compose-file stack/stack.yml wolphinproject/benchdrill
+docker stack deploy --with-registry-auth --prune --compose-file stack/stack.yml benchdrill
