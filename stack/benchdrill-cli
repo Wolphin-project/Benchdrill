@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker run --rm --network=benchdrill_default -i wolphinproject/benchdrill:latest "$@"
+docker run --rm --network=benchdrill_default -i wolphinproject/benchdrill "$@"

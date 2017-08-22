@@ -19,7 +19,7 @@ RUN git clone https://github.com/akopytov/sysbench.git
 
 RUN cd sysbench \
     && ./autogen.sh \
-    && ./configure --without-mysql \
+    && ./configure --without-mysql --without-gcc-arch \
     && make
 
 # ==================================================================================

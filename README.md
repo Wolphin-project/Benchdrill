@@ -8,7 +8,7 @@ Workers can be scaled up or down thanks to Docker, by scaling up or down the `be
 First you need Go 1.8 and Docker v17.06. Then, after cloning this repository with Git, run the following commands in a terminal in the root directory of Benchdrill:
 
 ``` shell
-$ docker pull wolphinproject/benchdrill:latest
+$ docker pull wolphinproject/benchdrill
 $ ./stack/benchdrill-network
 $ ./stack/benchdrill-deploy
 ```

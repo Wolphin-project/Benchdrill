@@ -7,7 +7,7 @@ services:
             - "6379:6379"
 
     worker:
-        image: wolphinproject/benchdrill:latest
+        image: wolphinproject/benchdrill
         command:
           - "worker"
         depends_on:
